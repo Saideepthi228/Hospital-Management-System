@@ -46,12 +46,17 @@ export default function WritePrescription() {
     e.preventDefault();
     setSaving(true);
     try {
-      // Assuming the doctor is doctor #1 for now since we don't have a linked refId
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (!user.refId) {
+        showToast('Error: Doctor ID not found. Please re-login.', 'error');
+        setSaving(false);
+        return;
+      }
       const payload = {
         ...form,
         appointmentId: parseInt(form.appointmentId),
         patientId: parseInt(form.patientId),
-        doctorId: 1, // Defaulting for demo
+        doctorId: parseInt(user.refId),
       };
       await prescriptionAPI.create(payload);
       showToast('Prescription saved successfully', 'success');
