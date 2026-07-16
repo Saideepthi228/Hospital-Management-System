@@ -10,6 +10,7 @@ export default function LoginPage() {
 
   const [form, setForm] = useState({
     username: '',
+    email: '',
     password: '',
     role: 'ADMIN',
   });
@@ -24,7 +25,7 @@ export default function LoginPage() {
     try {
       let userData;
       if (isLogin) {
-        userData = await authAPI.login({ username: form.username, password: form.password });
+        userData = await authAPI.login({ email: form.email, password: form.password });
       } else {
         userData = await authAPI.register(form);
       }
@@ -64,14 +65,29 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <div className="form-group">
+                <label className="form-label">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  className="form-input"
+                  placeholder="Enter your username"
+                  value={form.username}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            )}
+
             <div className="form-group">
-              <label className="form-label">Username</label>
+              <label className="form-label">Email</label>
               <input
-                type="text"
-                name="username"
+                type="email"
+                name="email"
                 className="form-input"
-                placeholder="Enter your username"
-                value={form.username}
+                placeholder="Enter your email"
+                value={form.email}
                 onChange={handleChange}
                 required
               />
