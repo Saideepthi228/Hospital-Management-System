@@ -37,6 +37,10 @@ public class Appointment {
 
     private String reason;
 
+    private Integer duration; // Duration in minutes (15, 30, 45, 60)
+
+    private String notes; // Doctor's notes after the appointment
+
     @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;

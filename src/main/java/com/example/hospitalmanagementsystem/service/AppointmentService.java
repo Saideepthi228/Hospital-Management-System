@@ -68,6 +68,8 @@ public class AppointmentService {
         existing.setAppointmentDate(dto.getAppointmentDate());
         existing.setAppointmentTime(dto.getAppointmentTime());
         existing.setReason(dto.getReason());
+        existing.setDuration(dto.getDuration());
+        existing.setNotes(dto.getNotes());
         existing.setStatus(dto.getStatus());
 
         Appointment updated = appointmentRepository.save(existing);
@@ -82,6 +84,22 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
+    // Get Appointments By Doctor
+    public List<AppointmentDTO> getByDoctor(Long doctorId) {
+        return appointmentRepository.findAll().stream()
+                .filter(a -> a.getDoctor().getDoctorId().equals(doctorId))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get Appointments By Patient
+    public List<AppointmentDTO> getByPatient(Long patientId) {
+        return appointmentRepository.findAll().stream()
+                .filter(a -> a.getPatient().getPatientId().equals(patientId))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     // --- Mapping helpers ---
 
     private AppointmentDTO toDTO(Appointment appointment) {
@@ -92,6 +110,8 @@ public class AppointmentService {
         dto.setAppointmentDate(appointment.getAppointmentDate());
         dto.setAppointmentTime(appointment.getAppointmentTime());
         dto.setReason(appointment.getReason());
+        dto.setDuration(appointment.getDuration());
+        dto.setNotes(appointment.getNotes());
         dto.setStatus(appointment.getStatus());
         return dto;
     }
@@ -103,6 +123,8 @@ public class AppointmentService {
         appointment.setAppointmentDate(dto.getAppointmentDate());
         appointment.setAppointmentTime(dto.getAppointmentTime());
         appointment.setReason(dto.getReason());
+        appointment.setDuration(dto.getDuration());
+        appointment.setNotes(dto.getNotes());
         appointment.setStatus(dto.getStatus());
         return appointment;
     }

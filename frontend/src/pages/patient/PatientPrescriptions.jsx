@@ -10,7 +10,8 @@ export default function PatientPrescriptions() {
 
   const loadData = async () => {
     try {
-      const rx = await prescriptionAPI.getAll();
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const rx = await prescriptionAPI.getByPatient(user.refId);
       setPrescriptions(rx);
     } catch (err) {
       console.error(err);

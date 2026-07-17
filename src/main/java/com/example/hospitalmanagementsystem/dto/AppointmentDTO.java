@@ -30,6 +30,10 @@ public class AppointmentDTO {
 
     private String reason;
 
+    private Integer duration;
+
+    private String notes;
+
     @NotNull(message = "Status is required")
     private AppointmentStatus status;
 }

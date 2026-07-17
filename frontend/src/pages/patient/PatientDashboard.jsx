@@ -15,13 +15,11 @@ export default function PatientDashboard() {
 
   const loadData = async () => {
     try {
-      // In a real app, we'd fetch only by patientId. 
-      // For this demo, we fetch all and show them.
       const [appts, bls] = await Promise.all([
-        appointmentAPI.getAll(),
+        appointmentAPI.getByPatient(user.refId),
         billAPI.getAll()
       ]);
-      setAppointments(appts.slice(0, 5)); // Just show a few
+      setAppointments(appts.slice(0, 5));
       setBills(bls.filter(b => b.paymentStatus === 'UNPAID').slice(0, 5));
     } catch (err) {
       console.error(err);
@@ -38,7 +36,11 @@ export default function PatientDashboard() {
       
       <div className="form-row">
         <div className="card">
-          <h2 style={{ fontSize: '1.25rem', color: 'var(--primary-blue)', marginBottom: '1rem' }}>Upcoming Appointments</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: '1.25rem', color: 'var(--primary)' }}>Upcoming Appointments</h2>
+            <a href="/portal/patient/book-appointment" className="btn btn-sm btn-primary">+ Book</a>
+          </div>
+
           {appointments.length === 0 ? (
             <p style={{ color: 'var(--text-light)' }}>No upcoming appointments.</p>
           ) : (
@@ -49,9 +51,15 @@ export default function PatientDashboard() {
                     <strong>{a.appointmentDate} at {a.appointmentTime}</strong>
                     <span className="badge badge-info">{a.status}</span>
                   </div>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--text-medium)' }}>
-                    Reason: {a.reason || 'General Visit'}
+                  <div style={{ fontSize: '0.9rem', color: 'var(--text-medium)', display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Reason: {a.reason || 'General Visit'}</span>
+                    <span style={{ color: 'var(--text-light)' }}>⏱ {a.duration || 30} mins</span>
                   </div>
+                  {a.notes && (
+                    <div style={{ marginTop: '0.75rem', padding: '0.75rem', background: 'var(--bg-light)', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem' }}>
+                      <strong>Doctor's Notes:</strong> {a.notes}
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>

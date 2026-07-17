@@ -3,6 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 export default function DoctorPortalLayout() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const initial = (user.username || 'D')[0].toUpperCase();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -11,18 +12,27 @@ export default function DoctorPortalLayout() {
 
   return (
     <div className="portal-layout">
-      <aside className="portal-sidebar" style={{ backgroundColor: '#1e293b' }}>
+      <aside className="portal-sidebar">
         <div className="brand">
           <span className="brand-icon">🏥</span> MedCore
         </div>
         <nav className="portal-nav">
-          <NavLink to="/portal/doctor/dashboard" className="portal-nav-link">Provider Dashboard</NavLink>
-          <NavLink to="/portal/doctor/appointments" className="portal-nav-link">My Schedule</NavLink>
-          <NavLink to="/portal/doctor/prescribe" className="portal-nav-link">Write Prescription</NavLink>
+          <p className="portal-nav-section">Provider</p>
+          <NavLink to="/portal/doctor/dashboard" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📊</span> Dashboard
+          </NavLink>
+          <NavLink to="/portal/doctor/appointments" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📅</span> My Schedule
+          </NavLink>
+          <NavLink to="/portal/doctor/prescribe" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📝</span> Write Prescription
+          </NavLink>
+          <NavLink to="/portal/doctor/upload-record" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📤</span> Upload Record
+          </NavLink>
         </nav>
         <div className="portal-sidebar-footer">
-          <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '0.5rem' }}>Provider Portal</div>
-          <button onClick={handleLogout} className="btn btn-outline" style={{ width: '100%', color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>Log Out</button>
+          <button onClick={handleLogout} className="btn btn-secondary">← Log Out</button>
         </div>
       </aside>
 
@@ -30,7 +40,8 @@ export default function DoctorPortalLayout() {
         <header className="portal-header">
           <h2>Provider Services</h2>
           <div className="portal-user-info">
-            Dr. {user.username || 'Provider'}
+            <span>Dr. {user.username || 'Provider'}</span>
+            <div className="portal-avatar">{initial}</div>
           </div>
         </header>
         <div className="portal-content">

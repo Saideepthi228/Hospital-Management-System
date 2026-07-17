@@ -48,6 +48,8 @@ export const appointmentAPI = {
   create: (data) => request('/appointments', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/appointments/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id) => request(`/appointments/${id}`, { method: 'DELETE' }),
+  getByDoctor: (doctorId) => request(`/appointments/doctor/${doctorId}`),
+  getByPatient: (patientId) => request(`/appointments/patient/${patientId}`),
 };
 
 // ── Bills ──
@@ -69,4 +71,23 @@ export const prescriptionAPI = {
   delete: (id) => request(`/prescriptions/${id}`, { method: 'DELETE' }),
   getByPatient: (patientId) => request(`/prescriptions/patient/${patientId}`),
   getByDoctor: (doctorId) => request(`/prescriptions/doctor/${doctorId}`),
+};
+
+// ── Medicines (Pharmacy) ──
+export const medicineAPI = {
+  getAll: () => request('/medicines'),
+  getById: (id) => request(`/medicines/${id}`),
+  create: (data) => request('/medicines', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/medicines/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/medicines/${id}`, { method: 'DELETE' }),
+};
+
+// ── Lab Reports (EMR) ──
+export const labReportAPI = {
+  getAll: () => request('/lab-reports'),
+  getByPatient: (patientId) => request(`/lab-reports/patient/${patientId}`),
+  getById: (id) => request(`/lab-reports/${id}`),
+  create: (data) => request('/lab-reports', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/lab-reports/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/lab-reports/${id}`, { method: 'DELETE' }),
 };

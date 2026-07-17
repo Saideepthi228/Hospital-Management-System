@@ -7,9 +7,10 @@ export default function HomePage() {
         <div className="container">
           <h1>Transforming Healthcare, Together</h1>
           <p>Ranked #1 hospital in the region. We provide world-class medical care with compassion, innovation, and expertise.</p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <Link to="/login/patient" className="btn btn-primary" style={{ backgroundColor: 'white', color: 'var(--primary-blue)' }}>Request an Appointment</Link>
-            <Link to="/login/patient" className="btn btn-outline" style={{ color: 'white', borderColor: 'white' }}>Patient Portal</Link>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/login" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
+              Sign In / Register
+            </Link>
           </div>
         </div>
       </section>
