@@ -27,6 +27,9 @@ export default function AdminPortalLayout() {
           <NavLink to="/portal/admin/inventory" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
             <span className="nav-icon">💊</span> Pharmacy & Inventory
           </NavLink>
+          <NavLink to="/portal/admin/revenue" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">💰</span> Revenue
+          </NavLink>
         </nav>
 
         <div className="portal-sidebar-footer">

@@ -30,6 +30,9 @@ export default function DoctorPortalLayout() {
           <NavLink to="/portal/doctor/upload-record" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
             <span className="nav-icon">📤</span> Upload Record
           </NavLink>
+          <NavLink to="/portal/doctor/telemedicine" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📹</span> Telemedicine
+          </NavLink>
         </nav>
         <div className="portal-sidebar-footer">
           <button onClick={handleLogout} className="btn btn-secondary">← Log Out</button>

@@ -11,7 +11,9 @@ import com.example.hospitalmanagementsystem.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,6 +99,24 @@ public class BillService {
                 .collect(Collectors.toList());
     }
 
+    // Process Payment
+    public BillDTO processPayment(Long billId, String paymentMethod) {
+        Bill bill = billRepository.findById(billId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bill not found with id: " + billId));
+
+        if ("PAID".equals(bill.getPaymentStatus())) {
+            throw new IllegalStateException("Bill is already paid");
+        }
+
+        bill.setPaymentStatus("PAID");
+        bill.setPaymentMethod(paymentMethod);
+        bill.setTransactionId("TXN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+        bill.setPaidDate(LocalDate.now());
+
+        Bill updated = billRepository.save(bill);
+        return toDTO(updated);
+    }
+
     // --- Mapping helpers ---
 
     private BillDTO toDTO(Bill bill) {
@@ -110,6 +130,10 @@ public class BillService {
         dto.setAmount(bill.getAmount());
         dto.setPaymentStatus(bill.getPaymentStatus());
         dto.setBillingDate(bill.getBillingDate());
+        dto.setPaymentMethod(bill.getPaymentMethod());
+        dto.setTransactionId(bill.getTransactionId());
+        dto.setPaidDate(bill.getPaidDate());
+        dto.setDescription(bill.getDescription());
         return dto;
     }
 
@@ -120,6 +144,7 @@ public class BillService {
         bill.setAmount(dto.getAmount());
         bill.setPaymentStatus(dto.getPaymentStatus());
         bill.setBillingDate(dto.getBillingDate());
+        bill.setDescription(dto.getDescription());
         return bill;
     }
 }

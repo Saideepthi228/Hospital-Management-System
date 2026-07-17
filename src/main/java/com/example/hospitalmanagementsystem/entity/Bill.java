@@ -36,4 +36,12 @@ public class Bill {
 
     @NotNull(message = "Billing date is required")
     private LocalDate billingDate;
+
+    private String paymentMethod; // CARD, CASH, UPI, INSURANCE
+
+    private String transactionId;
+
+    private LocalDate paidDate;
+
+    private String description;
 }

@@ -60,6 +60,7 @@ export const billAPI = {
   update: (id, data) => request(`/bills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id) => request(`/bills/${id}`, { method: 'DELETE' }),
   getByPatient: (patientId) => request(`/bills/patient/${patientId}`),
+  pay: (id, paymentMethod) => request(`/bills/${id}/pay`, { method: 'POST', body: JSON.stringify({ paymentMethod }) }),
 };
 
 // ── Prescriptions ──
@@ -90,4 +91,16 @@ export const labReportAPI = {
   create: (data) => request('/lab-reports', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/lab-reports/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id) => request(`/lab-reports/${id}`, { method: 'DELETE' }),
+};
+
+// ── Telemedicine ──
+export const telemedicineAPI = {
+  getAll: () => request('/telemedicine'),
+  getById: (id) => request(`/telemedicine/${id}`),
+  create: (data) => request('/telemedicine', { method: 'POST', body: JSON.stringify(data) }),
+  getByDoctor: (doctorId) => request(`/telemedicine/doctor/${doctorId}`),
+  getByPatient: (patientId) => request(`/telemedicine/patient/${patientId}`),
+  getByRoom: (roomCode) => request(`/telemedicine/room/${roomCode}`),
+  join: (id) => request(`/telemedicine/${id}/join`, { method: 'POST' }),
+  end: (id) => request(`/telemedicine/${id}/end`, { method: 'POST' }),
 };

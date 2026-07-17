@@ -18,6 +18,12 @@ import UploadLabReport from './pages/doctor/UploadLabReport';
 import AdminPortalLayout from './layouts/AdminPortalLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import InventoryManagement from './pages/admin/InventoryManagement';
+import RevenueDashboard from './pages/admin/RevenueDashboard';
+
+import PatientBilling from './pages/patient/PatientBilling';
+import PatientTelemedicine from './pages/patient/PatientTelemedicine';
+import DoctorTelemedicine from './pages/doctor/DoctorTelemedicine';
+import VideoRoom from './pages/telemedicine/VideoRoom';
 
 const ProtectedPatientRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -54,8 +60,8 @@ function App() {
         <Route path="book-appointment" element={<BookAppointment />} />
         <Route path="prescriptions" element={<PatientPrescriptions />} />
         <Route path="records" element={<MedicalRecords />} />
-        {/* Placeholders for upcoming features */}
-        <Route path="billing" element={<div className="card" style={{margin:'2rem'}}><h2>Billing coming in Phase 3</h2></div>} />
+        <Route path="billing" element={<PatientBilling />} />
+        <Route path="telemedicine" element={<PatientTelemedicine />} />
         <Route path="doctors" element={<div className="card" style={{margin:'2rem'}}><h2>Doctor Search coming soon</h2></div>} />
         <Route path="" element={<Navigate to="dashboard" replace />} />
       </Route>
@@ -66,6 +72,7 @@ function App() {
         <Route path="appointments" element={<DoctorAppointments />} />
         <Route path="prescribe" element={<WritePrescription />} />
         <Route path="upload-record" element={<UploadLabReport />} />
+        <Route path="telemedicine" element={<DoctorTelemedicine />} />
         <Route path="" element={<Navigate to="dashboard" replace />} />
       </Route>
 
@@ -73,8 +80,12 @@ function App() {
       <Route path="/portal/admin" element={<ProtectedAdminRoute><AdminPortalLayout /></ProtectedAdminRoute>}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="inventory" element={<InventoryManagement />} />
+        <Route path="revenue" element={<RevenueDashboard />} />
         <Route path="" element={<Navigate to="dashboard" replace />} />
       </Route>
+
+      {/* Standalone Video Room */}
+      <Route path="/telemedicine/room/:roomCode" element={<VideoRoom />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

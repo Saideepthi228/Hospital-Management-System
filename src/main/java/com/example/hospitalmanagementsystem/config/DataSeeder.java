@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -25,6 +26,7 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired private MedicineRepository medicineRepository;
     @Autowired private PrescriptionRepository prescriptionRepository;
     @Autowired private BillRepository billRepository;
+    @Autowired private TelemedicineRepository telemedicineRepository;
 
     @Override
     @Transactional
@@ -133,10 +135,28 @@ public class DataSeeder implements CommandLineRunner {
 
                 // Add a consultation bill (Some PAID, some UNPAID)
                 String pStatus = random.nextBoolean() ? "PAID" : "UNPAID";
-                Bill bill = new Bill(null, a.getPatient(), a, 500.0 + random.nextInt(1000), pStatus, a.getAppointmentDate());
+                Bill bill = new Bill(null, a.getPatient(), a, 500.0 + random.nextInt(1000), pStatus, a.getAppointmentDate(), 
+                        "PAID".equals(pStatus) ? "CARD" : null,
+                        "PAID".equals(pStatus) ? "TXN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase() : null,
+                        "PAID".equals(pStatus) ? a.getAppointmentDate() : null,
+                        "Consultation with " + a.getDoctor().getDoctorName());
                 billRepository.save(bill);
             }
         }
+
+        // 8. Add some Telemedicine Sessions
+        List<TelemedicineSession> teleSessions = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Appointment appt = appointments.get(i);
+            TelemedicineSession session = new TelemedicineSession(
+                    null, appt, appt.getPatient(), appt.getDoctor(),
+                    "ROOM-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
+                    "WAITING", appt.getAppointmentDate(), appt.getAppointmentTime(),
+                    null, null, "Follow-up consultation"
+            );
+            teleSessions.add(session);
+        }
+        telemedicineRepository.saveAll(teleSessions);
 
         System.out.println("Database Seeding Completed Successfully.");
     }

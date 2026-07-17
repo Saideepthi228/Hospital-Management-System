@@ -30,4 +30,12 @@ public class BillDTO {
 
     @NotNull(message = "Billing date is required")
     private LocalDate billingDate;
+
+    private String paymentMethod;
+
+    private String transactionId;
+
+    private LocalDate paidDate;
+
+    private String description;
 }

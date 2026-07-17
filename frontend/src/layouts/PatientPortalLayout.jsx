@@ -33,6 +33,9 @@ export default function PatientPortalLayout() {
           <NavLink to="/portal/patient/billing" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
             <span className="nav-icon">💳</span> Billing & Payments
           </NavLink>
+          <NavLink to="/portal/patient/telemedicine" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
+            <span className="nav-icon">📹</span> Telemedicine
+          </NavLink>
           <NavLink to="/portal/patient/doctors" className={({ isActive }) => `portal-nav-link${isActive ? ' active' : ''}`}>
             <span className="nav-icon">🔍</span> Find a Doctor
           </NavLink>

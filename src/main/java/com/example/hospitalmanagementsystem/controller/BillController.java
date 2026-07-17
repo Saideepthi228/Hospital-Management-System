@@ -56,4 +56,13 @@ public class BillController {
     public ResponseEntity<List<BillDTO>> getBillsByPatient(@PathVariable Long patientId) {
         return ResponseEntity.ok(billService.getBillsByPatient(patientId));
     }
+
+    // Process Payment
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<BillDTO> processPayment(@PathVariable Long id,
+                                                   @RequestBody java.util.Map<String, String> body) {
+        String paymentMethod = body.getOrDefault("paymentMethod", "CARD");
+        BillDTO paid = billService.processPayment(id, paymentMethod);
+        return ResponseEntity.ok(paid);
+    }
 }
