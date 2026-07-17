@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { appointmentAPI, billAPI } from '../../services/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 export default function PatientDashboard() {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ export default function PatientDashboard() {
     try {
       const [appts, bls] = await Promise.all([
         appointmentAPI.getByPatient(user.refId),
-        billAPI.getAll()
+        billAPI.getByPatient(user.refId)
       ]);
       setAppointments(appts.slice(0, 5));
       setBills(bls.filter(b => b.paymentStatus === 'UNPAID').slice(0, 5));
@@ -78,7 +80,7 @@ export default function PatientDashboard() {
                     <strong>Billed: {b.billingDate}</strong>
                     <span style={{ fontWeight: 'bold', color: 'var(--danger)' }}>₹{b.amount.toLocaleString()}</span>
                   </div>
-                  <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '0.5rem' }}>Pay Now</button>
+                  <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '0.5rem' }} onClick={() => navigate('/portal/patient/billing')}>Pay Now</button>
                 </li>
               ))}
             </ul>

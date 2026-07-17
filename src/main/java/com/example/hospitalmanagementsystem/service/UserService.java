@@ -67,10 +67,10 @@ public class UserService {
     // Login user
     public UserDTO loginUser(String email, String password) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid email or password"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
         if (!user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Invalid username or password");
+            throw new IllegalArgumentException("Invalid email or password");
         }
 
         return toDTO(user);

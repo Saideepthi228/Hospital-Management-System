@@ -7,11 +7,13 @@ export default function DoctorDashboard() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
   useEffect(() => { loadData(); }, []);
 
   const loadData = async () => {
     try {
-      const [appts, pats] = await Promise.all([appointmentAPI.getAll(), patientAPI.getAll()]);
+      const [appts, pats] = await Promise.all([appointmentAPI.getByDoctor(user.refId), patientAPI.getAll()]);
       setAppointments(appts);
       setPatients(pats);
     } catch (err) {

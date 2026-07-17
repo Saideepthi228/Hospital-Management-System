@@ -72,7 +72,7 @@ export default function LoginPage() {
     }
   };
 
-  const roleColor = detectedRole === 'ADMIN' ? 'var(--danger)' : detectedRole === 'DOCTOR' ? 'var(--success)' : 'var(--primary-blue)';
+  const roleColor = detectedRole === 'ADMIN' ? 'var(--danger)' : detectedRole === 'DOCTOR' ? 'var(--success)' : 'var(--primary)';
 
   return (
     <div className="container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem 0' }}>
